@@ -119,7 +119,7 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.graphics.mapper@2.0-impl-2.1 \
-    vendor.qti.hardware.memtrack-service
+    vendor.qti.hardware.memtrack-service \
     gralloc.sdm660 \
     hwcomposer.qcom \
     libqdMetaData \
