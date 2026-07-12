@@ -62,7 +62,7 @@
         "465000000",
         "647000000"
       ],
-      "DefaultIndex": 0,
+      "DefaultIndex": 1,
       "ResetOnInit": true
     },
     {
@@ -134,7 +134,7 @@
         "2929",
         "6881"
       ],
-      "DefaultIndex": 0,
+      "DefaultIndex": 1,
       "ResetOnInit": true
     },
     {
@@ -233,7 +233,25 @@
       "PowerHint": "INTERACTION",
       "Node": "CPUBWMinFreq",
       "Duration": 1000,
-      "Value": "2929"
+      "Value": "6881"
+    },
+    {
+      "PowerHint": "INTERACTION",
+      "Node": "GPUMinFreq",
+      "Duration": 1000,
+      "Value": "465000000"
+    },
+    {
+      "PowerHint": "INTERACTION",
+      "Node": "GPUIdleTimer",
+      "Duration": 1000,
+      "Value": "10000"
+    },
+    {
+      "PowerHint": "INTERACTION",
+      "Node": "SchedBoost",
+      "Duration": 1000,
+      "Value": "1"
     },
     {
       "PowerHint": "LAUNCH",
@@ -305,7 +323,7 @@
       "PowerHint": "LAUNCH",
       "Node": "GPUMinFreq",
       "Duration": 3500,
-      "Value": "465000000"
+      "Value": "647000000"
     },
     {
       "PowerHint": "LAUNCH",
