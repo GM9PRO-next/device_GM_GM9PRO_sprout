@@ -97,12 +97,12 @@
       "ResetOnInit": true
     },
     {
-      "Name": "SchedBoost",
-      "Path": "/proc/sys/kernel/sched_boost",
-      "DefaultIndex": 0,
+      "Name": "TASchedtuneBoost",
+      "Path": "/dev/stune/top-app/schedtune.boost",
+      "DefaultIndex": 1,
       "Values": [
-        "1",
-        "0"
+        "5",
+        "1"
       ],
       "ResetOnInit": true
     },
@@ -249,9 +249,9 @@
     },
     {
       "PowerHint": "INTERACTION",
-      "Node": "SchedBoost",
+      "Node": "TASchedtuneBoost",
       "Duration": 1000,
-      "Value": "1"
+      "Value": "5"
     },
     {
       "PowerHint": "LAUNCH",
@@ -327,9 +327,9 @@
     },
     {
       "PowerHint": "LAUNCH",
-      "Node": "SchedBoost",
+      "Node": "TASchedtuneBoost",
       "Duration": 3500,
-      "Value": "1"
+      "Value": "5"
     },
     {
       "PowerHint": "AUDIO_LAUNCH",
