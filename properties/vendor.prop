@@ -117,6 +117,9 @@ dalvik.vm.heaptargetutilization=0.75
 dalvik.vm.heapminfree=512k
 dalvik.vm.heapmaxfree=8m
 
+# Dalvik
+dalvik.vm.dex2oat64.enabled=true
+
 # DPM / DRM
 persist.vendor.dpm.feature=3
 persist.vendor.dpm.loglevel=7825
