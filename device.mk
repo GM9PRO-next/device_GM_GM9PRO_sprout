@@ -124,6 +124,16 @@ PRODUCT_PACKAGES += \
     gralloc.sdm660
 
 PRODUCT_PACKAGES += \
+    vendor.display.config@1.0 \
+    vendor.display.config@1.0.vendor \
+    vendor.display.config@2.0 \
+    android.frameworks.displayservice@1.0 \
+    android.frameworks.displayservice@1.0_32 \
+    android.frameworks.displayservice@1.0.vendor \
+    libdisplayconfig \
+    libtinyxml
+
+PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.1-service \
     hwcomposer.qcom
 
