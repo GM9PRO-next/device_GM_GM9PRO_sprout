@@ -244,7 +244,8 @@ PRODUCT_PACKAGES += \
    FrameworksResOverlayGM \
    SettingsProviderOverlayGM \
    TelephonyOverlayGM \
-   WifiOverlayGM \
+   Launcher3OverlayGM9PRO \
+   WifiOverlayGM
 
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/lineage-overlay
