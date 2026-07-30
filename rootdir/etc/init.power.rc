@@ -1,0 +1,17 @@
+on property:sys.boot_completed=1
+    # Disable core_ctl
+    write /sys/devices/system/cpu/cpu0/core_ctl/enable 0
+    write /sys/devices/system/cpu/cpu4/core_ctl/enable 0
+
+    # Enable iowait_boost
+    write /sys/devices/system/cpu/cpufreq/policy0/schedutil/iowait_boost_enable 1
+    write /sys/devices/system/cpu/cpufreq/policy4/schedutil/iowait_boost_enable 1
+
+    # Input boost freqs
+    write /sys/module/cpu_boost/parameters/input_boost_freq "0:1843200 1:1843200 2:1843200 3:1843200 4:2208000 5:2208000 6:2208000 7:2208000"
+
+    # Input boost
+    write /sys/module/cpu_boost/parameters/input_boost_ms 1000
+
+    # Enable scheduler boost during input boost
+    write /sys/module/cpu_boost/parameters/sched_boost_on_input Y
