@@ -1,0 +1,154 @@
+# Copyright (c) 2013-2018, 2026 The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#
+
+on early-init
+    # cpuset must exist before HAL services apply task profiles
+    mkdir /dev/cpuset 0755 system system
+    mount cgroup none /dev/cpuset nodev noexec nosuid cpuset,noprefix
+
+    # Core Android groups
+    mkdir /dev/cpuset/foreground 0755 system system
+    write /dev/cpuset/foreground/mems 0
+    write /dev/cpuset/foreground/cpus 0-7
+
+    mkdir /dev/cpuset/top-app 0755 system system
+    write /dev/cpuset/top-app/mems 0
+    write /dev/cpuset/top-app/cpus 0-7
+
+    mkdir /dev/cpuset/foreground_window 0755 system system
+    write /dev/cpuset/foreground_window/mems 0
+    write /dev/cpuset/foreground_window/cpus 0-7
+
+    mkdir /dev/cpuset/camera-daemon 0755 system system
+    write /dev/cpuset/camera-daemon/mems 0
+    write /dev/cpuset/camera-daemon/cpus 0-7
+
+    mkdir /dev/cpuset/background 0755 system system
+    write /dev/cpuset/background/mems 0
+    write /dev/cpuset/background/cpus 0-3
+
+    mkdir /dev/cpuset/system-background 0775 system system
+    write /dev/cpuset/system-background/mems 0
+    write /dev/cpuset/system-background/cpus 0-3
+
+    mkdir /dev/cpuset/restricted 0755 system system
+    write /dev/cpuset/restricted/mems 0
+    write /dev/cpuset/restricted/cpus 0-3
+
+    # Paths referenced by vendor task_profiles.json
+    mkdir /dev/cpuset/application 0755 system system
+    write /dev/cpuset/application/mems 0
+    write /dev/cpuset/application/cpus 0-7
+
+    mkdir /dev/cpuset/application/background 0755 system system
+    write /dev/cpuset/application/background/mems 0
+    write /dev/cpuset/application/background/cpus 0-3
+
+    mkdir /dev/cpuset/application/performance 0755 system system
+    write /dev/cpuset/application/performance/mems 0
+    write /dev/cpuset/application/performance/cpus 0-7
+
+    mkdir /dev/cpuset/system 0755 system system
+    write /dev/cpuset/system/mems 0
+    write /dev/cpuset/system/cpus 0-7
+
+    mkdir /dev/cpuset/system/background 0755 system system
+    write /dev/cpuset/system/background/mems 0
+    write /dev/cpuset/system/background/cpus 0-3
+
+    mkdir /dev/cpuset/system/performance 0755 system system
+    write /dev/cpuset/system/performance/mems 0
+    write /dev/cpuset/system/performance/cpus 0-7
+
+on init
+    # Allow Android services and libprocessgroup to move tasks.
+    chown system system /dev/cpuset/foreground/tasks
+    chown system system /dev/cpuset/foreground/cgroup.procs
+    chmod 0664 /dev/cpuset/foreground/tasks
+    chmod 0664 /dev/cpuset/foreground/cgroup.procs
+
+    chown system system /dev/cpuset/top-app/tasks
+    chown system system /dev/cpuset/top-app/cgroup.procs
+    chmod 0664 /dev/cpuset/top-app/tasks
+    chmod 0664 /dev/cpuset/top-app/cgroup.procs
+
+    chown system system /dev/cpuset/foreground_window/tasks
+    chown system system /dev/cpuset/foreground_window/cgroup.procs
+    chmod 0664 /dev/cpuset/foreground_window/tasks
+    chmod 0664 /dev/cpuset/foreground_window/cgroup.procs
+
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chown system system /dev/cpuset/camera-daemon/cgroup.procs
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/cgroup.procs
+
+    chown system system /dev/cpuset/background/tasks
+    chown system system /dev/cpuset/background/cgroup.procs
+    chmod 0664 /dev/cpuset/background/tasks
+    chmod 0664 /dev/cpuset/background/cgroup.procs
+
+    chown system system /dev/cpuset/system-background/tasks
+    chown system system /dev/cpuset/system-background/cgroup.procs
+    chmod 0664 /dev/cpuset/system-background/tasks
+    chmod 0664 /dev/cpuset/system-background/cgroup.procs
+
+    chown system system /dev/cpuset/restricted/tasks
+    chown system system /dev/cpuset/restricted/cgroup.procs
+    chmod 0664 /dev/cpuset/restricted/tasks
+    chmod 0664 /dev/cpuset/restricted/cgroup.procs
+
+    chown system system /dev/cpuset/application/tasks
+    chown system system /dev/cpuset/application/cgroup.procs
+    chmod 0664 /dev/cpuset/application/tasks
+    chmod 0664 /dev/cpuset/application/cgroup.procs
+
+    chown system system /dev/cpuset/application/background/tasks
+    chown system system /dev/cpuset/application/background/cgroup.procs
+    chmod 0664 /dev/cpuset/application/background/tasks
+    chmod 0664 /dev/cpuset/application/background/cgroup.procs
+
+    chown system system /dev/cpuset/application/performance/tasks
+    chown system system /dev/cpuset/application/performance/cgroup.procs
+    chmod 0664 /dev/cpuset/application/performance/tasks
+    chmod 0664 /dev/cpuset/application/performance/cgroup.procs
+
+    chown system system /dev/cpuset/system/tasks
+    chown system system /dev/cpuset/system/cgroup.procs
+    chmod 0664 /dev/cpuset/system/tasks
+    chmod 0664 /dev/cpuset/system/cgroup.procs
+
+    chown system system /dev/cpuset/system/background/tasks
+    chown system system /dev/cpuset/system/background/cgroup.procs
+    chmod 0664 /dev/cpuset/system/background/tasks
+    chmod 0664 /dev/cpuset/system/background/cgroup.procs
+
+    chown system system /dev/cpuset/system/performance/tasks
+    chown system system /dev/cpuset/system/performance/cgroup.procs
+    chmod 0664 /dev/cpuset/system/performance/tasks
+    chmod 0664 /dev/cpuset/system/performance/cgroup.procs
