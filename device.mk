@@ -341,7 +341,8 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.sh \
     ueventd.qcom.rc \
     init.zram.rc \
-    init.power.rc
+    init.power.rc \
+    init.cgroup.custom.rc
 
 # Seccomp
 PRODUCT_COPY_FILES += \
