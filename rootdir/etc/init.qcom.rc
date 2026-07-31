@@ -27,10 +27,7 @@
 
 import /vendor/etc/init/hw/init.qcom.usb.rc
 import /vendor/etc/init/hw/init.msm.usb.configfs.rc
-import /vendor/etc/init/hw/init.qcom.test.rc
 import /vendor/etc/init/hw/init.target.rc
-import /vendor/etc/init/hw/init.qcom.factory.rc
-import /vendor/etc/init/hw/init.logger.rc
 import /vendor/etc/init/hw/init.zram.rc
 import /vendor/etc/init/hw/init.power.rc
 import /vendor/etc/init/hw/init.cgroup.custom.rc
@@ -281,7 +278,6 @@ on post-fs-data
 
     # Create directory for radio
     mkdir /data/vendor/radio 0770 system radio
-    rm /data/vendor/radio/shmbus
 
     # Create directory for modem_config
     mkdir /data/vendor/modem_config 0570 radio root
@@ -351,10 +347,6 @@ on post-fs-data
     copy /vendor/radio/qcril_database/qcril.db /data/vendor/radio/qcril_prebuilt.db
     chown radio radio /data/vendor/radio/qcril_prebuilt.db
     chmod 0660 /data/vendor/radio/qcril_prebuilt.db
-    copy /vendor/radio/qcril_database/qcrilNr.db /data/vendor/radio/qcrilNr_prebuilt.db
-    copy /vendor/etc/qcril_database/qcrilNr.db /data/vendor/radio/qcrilNr_prebuilt.db
-    chown radio radio /data/vendor/radio/qcrilNr_prebuilt.db
-    chmod 0660 /data/vendor/radio/qcrilNr_prebuilt.db
 
     # File flags for prebuilt ril db file
     write /data/vendor/radio/prebuilt_db_support 1
@@ -416,12 +408,6 @@ on post-fs-data
 	chmod 0666 /sys/module/cpu_boost/parameters/sched_boost_on_input
 	chown system system /sys/module/cpu_boost/parameters/sched_boost_on_input
 
-service nqnfcinfo /system/vendor/bin/nqnfcinfo
-    class late_start
-    group nfc
-    user system
-    oneshot
-
 service iop /system/vendor/bin/iop
     class main
     user root
@@ -450,18 +436,6 @@ service vendor.ss_ramdump /system/vendor/bin/subsystem_ramdump
     user system
     group system
     disabled
-
-on property:ro.vendor.iocgrp.config=1
-    mkdir /dev/blkio
-    mount cgroup none /dev/blkio blkio
-    chown system system /dev/blkio
-    chown system system /dev/blkio/tasks
-    chmod 0664 /dev/blkio/tasks
-    mkdir /dev/blkio/bg 0755 system system
-    chown system system /dev/blkio/bg/tasks
-    chmod 0664 /dev/blkio/bg/tasks
-    write /dev/blkio/blkio.weight 1000
-    write /dev/blkio/bg/blkio.weight 100
 
 on property:persist.sys.ssr.enable_debug=*
     write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
@@ -627,12 +601,6 @@ on property:sys.shutdown.requested=*
     stop cnss-daemon
 #modify shutdown property for shutdown quickly TEL_L9501_A01-251 by tangjifu 2018-10-30 end
 
-service ssgqmigd /vendor/bin/ssgqmigd
-    class late_start
-    user radio
-    group radio gps system
-    socket ssgqmig seqpacket 0660 radio inet
-
 service mlid /vendor/bin/mlid
     class late_start
     user gps
@@ -690,11 +658,6 @@ on property:sys.boot_completed=1
 
 on property:ro.vendor.ril.mbn_copy_completed=1
     write /data/vendor/radio/copy_complete 1
-
-service qvop-daemon /vendor/bin/qvop-daemon
-    class late_start
-    user system
-    group system drmrpc
 
 service vendor.atfwd /vendor/bin/ATFWD-daemon
     class late_start
@@ -832,16 +795,6 @@ service vendor.LKCore-rel /vendor/bin/LKCore
     user system
     group system log diag
 
-service qseeproxydaemon /system/vendor/bin/qseeproxydaemon
-    class late_start
-    user system
-    group system
-
-service esepmdaemon /system/vendor/bin/esepmdaemon
-    class core
-    user system
-    group nfc
-
 on charger
     setprop persist.sys.usb.config mass_storage
     start qcom-post-boot
@@ -870,11 +823,6 @@ on property:vendor.rild.libpath=*
 on property:ro.vendor.radio.noril=*
     setprop ro.radio.noril ${ro.vendor.radio.noril}
 
-service seemp_healthd /vendor/bin/seemp_healthd
-    class late_start
-    user system
-    group system
-
 service vendor.power_off_alarm /vendor/bin/power_off_alarm
     class core
     group system
@@ -887,16 +835,6 @@ service vendor.move_time_data /system/bin/move_time_data.sh
     group system
     disabled
     oneshot
-
-service chre /vendor/bin/chre
-    class late_start
-    user system
-    group system
-    socket chre seqpacket 0660 root system
-    shutdown critical
-
-on property:vendor.chre.enabled=0
-   stop chre
 
 service bugreport /system/bin/dumpstate -d -p -B -z -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
     class main
