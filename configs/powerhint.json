@@ -115,15 +115,16 @@
       ]
     },
     {
-      "Name": "SchedBoost",
+      "Name": "TASchedtuneBoost",
       "DefaultIndex": 0,
       "Values": [
-        "1",
-        "0"
+        "10",
+        "20",
+        "35"
       ],
       "ResetOnInit": true,
       "Paths": [
-        "/proc/sys/kernel/sched_boost"
+        "/dev/stune/top-app/schedtune.boost"
       ]
     },
     {
@@ -161,28 +162,6 @@
       "ResetOnInit": true,
       "Paths": [
         "/sys/class/devfreq/soc:qcom,cpubw/min_freq"
-      ]
-    },
-    {
-      "Name": "PMQoSCpuDmaLatency",
-      "Values": [
-        "0x0000002b",
-        "0x00000064"
-      ],
-      "HoldFd": true,
-      "Paths": [
-        "/dev/cpu_dma_latency"
-      ]
-    },
-    {
-      "Name": "PowerHALAudioState",
-      "Values": [
-        "AUDIO_STREAMING_LOW_LATENCY",
-        ""
-      ],
-      "Type": "Property",
-      "Paths": [
-        "vendor.powerhal.audio"
       ]
     },
     {
@@ -259,18 +238,6 @@
     },
     {
       "PowerHint": "INTERACTION",
-      "Node": "PMQoSCpuDmaLatency",
-      "Duration": 1000,
-      "Value": "0x0000002b"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "CPUBWHystTriggerCount",
-      "Duration": 1000,
-      "Value": "0"
-    },
-    {
-      "PowerHint": "INTERACTION",
       "Node": "CPUBWHistMemory",
       "Duration": 1000,
       "Value": "0"
@@ -295,9 +262,9 @@
     },
     {
       "PowerHint": "INTERACTION",
-      "Node": "SchedBoost",
+      "Node": "TASchedtuneBoost",
       "Duration": 1000,
-      "Value": "1"
+      "Value": "20"
     },
     {
       "PowerHint": "LAUNCH",
@@ -322,12 +289,6 @@
       "Node": "CPULittleClusterMinFreq",
       "Duration": 3500,
       "Value": "1747200"
-    },
-    {
-      "PowerHint": "LAUNCH",
-      "Node": "PMQoSCpuDmaLatency",
-      "Duration": 3500,
-      "Value": "0x0000002b"
     },
     {
       "PowerHint": "LAUNCH",
@@ -373,27 +334,9 @@
     },
     {
       "PowerHint": "LAUNCH",
-      "Node": "SchedBoost",
+      "Node": "TASchedtuneBoost",
       "Duration": 3500,
-      "Value": "1"
-    },
-    {
-      "PowerHint": "AUDIO_LAUNCH",
-      "Node": "PMQoSCpuDmaLatency",
-      "Duration": 2000,
-      "Value": "0x0000002b"
-    },
-    {
-      "PowerHint": "AUDIO_STREAMING_LOW_LATENCY",
-      "Node": "PowerHALAudioState",
-      "Duration": 0,
-      "Value": "AUDIO_STREAMING_LOW_LATENCY"
-    },
-    {
-      "PowerHint": "AUDIO_STREAMING_LOW_LATENCY",
-      "Node": "PMQoSCpuDmaLatency",
-      "Duration": 0,
-      "Value": "0x0000002b"
+      "Value": "35"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
@@ -405,7 +348,7 @@
       "PowerHint": "EXPENSIVE_RENDERING",
       "Node": "GPUMinFreq",
       "Duration": 0,
-      "Value": "647000000"
+      "Value": "465000000"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
