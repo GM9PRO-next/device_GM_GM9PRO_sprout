@@ -1,0 +1,109 @@
+--- a/packages/modules/Connectivity/Tethering/src/com/android/networkstack/tethering/BpfCoordinator.java
++++ b/packages/modules/Connectivity/Tethering/src/com/android/networkstack/tethering/BpfCoordinator.java
+@@ -405,7 +405,7 @@
+             try {
+                 return new BpfMap<>(TETHER_DOWNSTREAM4_MAP_PATH,
+                     Tether4Key.class, Tether4Value.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create downstream4 map: " + e);
+                 return null;
+             }
+@@ -417,7 +417,7 @@
+             try {
+                 return new BpfMap<>(TETHER_UPSTREAM4_MAP_PATH,
+                     Tether4Key.class, Tether4Value.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create upstream4 map: " + e);
+                 return null;
+             }
+@@ -429,7 +429,7 @@
+             try {
+                 return new BpfMap<>(TETHER_DOWNSTREAM6_FS_PATH,
+                     TetherDownstream6Key.class, Tether6Value.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create downstream6 map: " + e);
+                 return null;
+             }
+@@ -441,7 +441,7 @@
+             try {
+                 return new BpfMap<>(TETHER_UPSTREAM6_FS_PATH,
+                         TetherUpstream6Key.class, Tether6Value.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create upstream6 map: " + e);
+                 return null;
+             }
+@@ -453,7 +453,7 @@
+             try {
+                 return new BpfMap<>(TETHER_STATS_MAP_PATH,
+                     S32.class, TetherStatsValue.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create stats map: " + e);
+                 return null;
+             }
+@@ -465,7 +465,7 @@
+             try {
+                 return new BpfMap<>(TETHER_LIMIT_MAP_PATH,
+                     S32.class, S64.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create limit map: " + e);
+                 return null;
+             }
+@@ -477,7 +477,7 @@
+             try {
+                 return new BpfMap<>(TETHER_DEV_MAP_PATH,
+                     S32.class, S32.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create dev map: " + e);
+                 return null;
+             }
+@@ -489,7 +489,7 @@
+             try {
+                 return new BpfMap<>(TETHER_ERROR_MAP_PATH,
+                     BpfMap.BPF_F_RDONLY, S32.class, S32.class);
+-            } catch (ErrnoException e) {
++            } catch (Exception e) {
+                 Log.e(TAG, "Cannot create error map: " + e);
+                 return null;
+             }
+--- a/packages/modules/Connectivity/Tethering/src/com/android/networkstack/tethering/OffloadHalHidlImpl.java
++++ b/packages/modules/Connectivity/Tethering/src/com/android/networkstack/tethering/OffloadHalHidlImpl.java
+@@ -284,20 +284,17 @@
+     public static IOffloadHal getIOffloadHal(Handler handler, SharedLog log) {
+         IOffloadConfig config = null;
+         try {
+-            config = IOffloadConfig.getService(true /*retry*/);
+-        } catch (RemoteException e) {
++            config = IOffloadConfig.getService(false /*retry*/);
++        } catch (RemoteException | NoSuchElementException e) {
+             log.e("getIOffloadConfig error " + e);
+             return null;
+-        } catch (NoSuchElementException e) {
+-            log.i("getIOffloadConfig Tether Offload HAL not present/implemented");
+-            return null;
+         }
+ 
+         IOffloadControl control = null;
+         int version = OFFLOAD_HAL_VERSION_NONE;
+         try {
+             control = android.hardware.tetheroffload.control
+-                    .V1_1.IOffloadControl.getService(true /*retry*/);
++                    .V1_1.IOffloadControl.getService(false /*retry*/);
+             version = OFFLOAD_HAL_VERSION_HIDL_1_1;
+         } catch (NoSuchElementException e) {
+             // Unsupported by device.
+@@ -306,7 +303,7 @@
+         }
+         if (control == null) {
+             try {
+-                control = IOffloadControl.getService(true /*retry*/);
++                control = IOffloadControl.getService(false /*retry*/);
+                 version = OFFLOAD_HAL_VERSION_HIDL_1_0;
+             } catch (NoSuchElementException e) {
+                 // Unsupported by device.
